@@ -48,17 +48,23 @@ xlabel("Time");
 ylabel("Amplitude");
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %to adjust length
-matched_filter_out=matched_filter_out(1:length(train_impulses));
-non_matched_filter_out=non_matched_filter_out(1:length(train_impulses));
+matched_filter_out = matched_filter_out(1:length(train_impulses));
+non_matched_filter_out = non_matched_filter_out(1:length(train_impulses));
 
 matched_filter_out_s     = matched_filter_out .* train_impulses ;
 non_matched_filter_out_s = non_matched_filter_out .* train_impulses ;
 
 correlator_out = zeros(1, length(y) - length(p) + 6);
 for i = 1:5:length(y) - length(p) + 1
-    segment = y(i:i+4); % Take 5 samples
-    correlator_out(i+4) = sum(segment .* p);
+    out = 0;
+    for j = 1:length(p)
+        out = out + y(i+j-1) * p(j);
+        correlator_out(i+j-1) = out; 
+    end
 end
+corr_out_s = correlator_out .* train_impulses ;
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Plotting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure('Name','Filters');
 subplot(2,1,1);
@@ -117,10 +123,31 @@ ylabel('amplitude');
 title('output of matched and correlator');
 legend 'matched filter' 'correlator';
 
+figure('Name','output of matched and correlator');
+subplot(2,1,1);
+plot(matched_filter_out,'r');
+hold on;
+stem(matched_filter_out,'r')
+hold off;
+grid on;
+xlabel('time');
+ylabel('amplitude');
+title('output of matched ');
+
+subplot(2,1,2);
+plot(correlator_out,'b');
+hold on;
+stem(correlator_out,'b')
+hold off;
+grid on;
+xlabel('time');
+ylabel('amplitude');
+title('output of correlator ');
+
 figure('Name','output of matched and correlator after sampling');
 plot(matched_filter_out_s,'r-');
 hold on;
-plot(correlator_out,'b--');
+plot(corr_out_s,'b--');
 hold off;
 grid on;
 xlabel('time');
@@ -243,7 +270,7 @@ for i = 1:4
     
     % the square root raised cosine filter
     filter = rcosine(1, n_samples, 'sqrt', R, delay);
-    figure(8);
+    figure(9);
     subplot(2, 2, i);
     plot(filter);
     title("rcosine filter R: " + R + " Delay: " + delay);   
