@@ -80,78 +80,93 @@ xlabel('time');
 ylabel('amplitude');
 title('non-matched filter');
 
+figure('Name','output of the filters and after sample');
+x_rescaled = (1:length(matched_filter_out)) / 5;
+subplot(2,1,1);
+plot(x_rescaled,matched_filter_out,'r');
+hold on;
+stem(x_rescaled,matched_filter_out_s,'b -o');
+hold off;
+grid on
+xlabel('Time [Ts sec]');
+ylabel('Amplitude');
+title('matched filter output');
+legend 'matched filter output' 'matched filter output sampled';
+
+subplot(2,1,2);
+plot(x_rescaled,non_matched_filter_out,'r');
+hold on;
+stem(x_rescaled,non_matched_filter_out_s,'b -o');
+hold off;
+grid on
+xlabel('Time [Ts sec]');
+ylabel('Amplitude');
+title('matched filter output');
+legend 'non matched filter output' 'non matched filter output sampled';
 
 figure('Name','Comparison between the outputs of the filters at the sampling instants');
 subplot(2,1,1);
-plot(matched_filter_out,'r');
+plot(x_rescaled,matched_filter_out,'r');
 hold on;
-stem(matched_filter_out,'r');
+stem(x_rescaled,matched_filter_out,'r');
 hold off;
 grid on
-xlabel('time');
-ylabel('amplitude');
+xlabel('Time [Ts sec]');
+ylabel('Amplitude');
 title('matched filter output');
 subplot(2,1,2);
-plot(non_matched_filter_out,'b');
+plot(x_rescaled,non_matched_filter_out,'b');
 hold on;
-stem(non_matched_filter_out,'b');
+stem(x_rescaled,non_matched_filter_out,'b');
 hold off;
 grid on
-xlabel('time');
-ylabel('amplitude');
+xlabel('Time [Ts sec]');
+ylabel('Amplitude');
 title('non-matched filter output');
 
 figure('Name',' Comparison between the outputs of the filters after sampling');
-plot(matched_filter_out_s,'r-');
+plot(x_rescaled,matched_filter_out_s,'r-');
 hold on;
-plot(non_matched_filter_out_s,'b--');
+plot(x_rescaled,non_matched_filter_out_s,'b--');
 hold off;
 grid on;
-xlabel('time');
-ylabel('amplitude');
+xlabel('Time [Ts sec]');
+ylabel('Amplitude');
 title('Comparison between the outputs of the filters after sampling ');
 legend 'matched filter' 'non matched filter';
 
 figure('Name','output of matched and correlator');
-plot(matched_filter_out,'r');
-hold on;
-plot(correlator_out,'b');
-hold off;
-grid on;
-xlabel('time');
-ylabel('amplitude');
-title('output of matched and correlator');
-legend 'matched filter' 'correlator';
-
-figure('Name','output of matched and correlator');
 subplot(2,1,1);
-plot(matched_filter_out,'r');
+plot(x_rescaled,matched_filter_out,'r');
 hold on;
-stem(matched_filter_out,'r')
+stem(x_rescaled,matched_filter_out_s,'b -o');
 hold off;
-grid on;
-xlabel('time');
-ylabel('amplitude');
-title('output of matched ');
+grid on
+xlabel('Time [Ts sec]');
+ylabel('Amplitude');
+title('matched filter output');
+legend 'matched filter output' 'matched filter output sampled';
 
 subplot(2,1,2);
-plot(correlator_out,'b');
+plot(x_rescaled,correlator_out,'r');
 hold on;
-stem(correlator_out,'b')
+stem(x_rescaled,corr_out_s,'b -o');
 hold off;
-grid on;
-xlabel('time');
-ylabel('amplitude');
-title('output of correlator ');
+grid on
+xlabel('Time [Ts sec]');
+ylabel('Amplitude');
+title('matched filter output');
+legend 'correlator output' 'correlator output sampled';
+
 
 figure('Name','output of matched and correlator after sampling');
-plot(matched_filter_out_s,'r-');
+plot(x_rescaled,matched_filter_out_s,'r-');
 hold on;
-plot(corr_out_s,'b--');
+plot(x_rescaled,corr_out_s,'b--');
 hold off;
 grid on;
-xlabel('time');
-ylabel('amplitude');
+xlabel('Time [Ts sec]');
+ylabel('Amplitude');
 title('output of matched and correlator after sampling');
 legend 'matched filter' correlator;
 
